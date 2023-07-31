@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+    {% block title %}New{% endblock %}
+
+    {% block main %}
+        {% if days and nameMonth and peoples %}
+            <div>
+                <h3>Chart for {{ nameMonth }}</h3>
+            </div>
+            <form action="/new" method="post">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" rowspan="2">№</th>
+                            <th scope="col" rowspan="2">Name</th>
+                            <th scope="col" colspan="{{ days }}">Date</th>
+                        </tr>
+                            {% for num in range(1, days + 1)%}
+                            <th style="width: 40px;" scope="col" value="{{ num }}">{{ num }}</th>
+                            {% endfor %}
+                    </thead>
+                    <tbody class="current">
+                        <td colspan="{{ days + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+
+                        {% for count in range(1, 13) %}
+                        <tr>
+                            <td>{{ count }}</td>
+                            <td>
+                                <select class="username" autofocus name="{{ count }}">
+                                    <option disable selected>Name</option>
+                                    {% for people in peoples %}
+                                    <option value="{{ people.username }}">{{ people.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            {% for num in range(1, days + 1)%}
+                                <td>
+                                    <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor">
+                                        <option value="dayOff"></option>
+                                        <option value="inspector">I</option>
+                                        <option value="driver">D</option>
+                                        <option value="major" style="background-color: aquamarine;">I</option>
+                                        <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                                    </select>
+                                </td>
+                            {% endfor %}
+        
+                        </tr>
+                        {%if count % 4 == 0 %}
+                            <td colspan="{{ days + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+                        {% endif %}
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <input type="hidden" name="yearInput" value="{{ year }}">
+                <input type="hidden" name="monthInput" value="{{ month }}">
+                <input type="hidden" name="days" value="{{ days }}">
+                <button class="btn btn-primary" type="submit">Create</button>
+            </form>
+        {% else %}
+        <form action="/new" method="post">
+            <div class="mb-3">
+                <select class="form-control mx-auto w-auto" autofocus name="month">
+                    <option disable selected value="">Month</option>
+                    {% for month in months %}
+                        <option value="{{ month.number }}">{{ month.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <select class="form-control mx-auto w-auto" name="year">
+                    <option name="{{ year }}">{{ year }}</option>
+                    <option name="{{ year + 1}}">{{ year + 1}}</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Create</button>
+        </form>
+        {% endif %}
+    {% endblock %}
+ 

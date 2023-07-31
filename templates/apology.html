@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+    <div id="error">
+        <h2>{{ massage }}</h2>
+        <h3>{{ code }}</h3> 
+    </div>
+    <img alt="{{ code }}" class="border img-fluid" src="/static/travolta.jpg" title="{{ code }}" id="apology">
+{% endblock %}

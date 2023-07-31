@@ -1,0 +1,116 @@
+.bg-body-tertiary {
+    background-color:#0D77A5;
+}
+
+main {
+    
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+#apology {
+    width: 25vw;
+    height: auto;
+}
+
+#error {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.shift {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    appearance: none;
+    display: block;
+    position: absolute;
+    content: "";
+}
+
+.username {
+    appearance: none;  
+    text-align: center;
+}
+
+.table {
+    border: #0D77A5;
+
+}
+
+.current td, tr, th {
+    border: 1px solid black;
+}
+
+.navbar-brand {
+    color: rgb(255, 210, 60);
+    font-size: 40px;
+    padding-right: 100px;
+}
+
+.chart {
+    padding-bottom: 40px;
+}
+
+.nav-link {
+    color: #0D77A5;
+}
+
+#toggler {
+    background-color:rgb(255, 210, 60);
+    border: 1px solid #ffffff;
+}
+
+.current {
+    table-layout: fixed;
+}
+
+.footer {
+    background-color:rgba(0, 0, 0, 0.686);
+    width: 100%;
+    height: 50px;
+}
+
+h5 {
+    padding-top: 15px;
+    color: rgb(131, 10, 30);
+}
+
+.calendar {
+    margin: auto;
+    text-align: center;
+    font-size: x-large;
+    width: 50%;
+    height: 50%;
+    background-color: #ffffff;
+    table-layout: fixed;
+    border: 3px solid black;
+    padding-bottom: 100px;
+}
+
+.calendar td, tr {
+    border: 1px solid black;
+}
+
+#rectangle {
+    width: 100px;
+    height: 40px;
+}
+
+h6 {
+    float: right;
+    padding-right: 4%;
+}
+
+body{
+    background-color: #0d77a59f;
+}
+
+table {
+    background-color: #ffffff;
+}
+
+.content {
+    min-height: calc(100vh - 100px);
+}

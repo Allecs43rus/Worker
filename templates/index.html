@@ -1,0 +1,60 @@
+{% extends "layout.html" %} 
+
+{% block title %}Index{% endblock %}
+
+{% block main %}
+    <div class="chart">
+        <h3> Chart for {{ now.month }} / {{ now.year }}</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" rowspan="2">№</th>
+                <th scope="col" rowspan="2">Name</th>
+                <th scope="col" rowspan="2">Position</th>
+                <th scope="col" colspan="{{ days }}">Date</th>
+            </tr>
+                {% for num in range(1, days + 1)%}
+                <th style="width: 40px;" scope="col">{{ num }}</th>
+                {% endfor %}
+        </thead>
+        <tbody class="current">
+            <td colspan="{{ days + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+            {% for count in range(1, 13)%}
+            <tr>
+                <td>{{ count }}</td>
+                {% for shift in shifts %}
+                    {% if count == shift["number"] %}
+                        <td>{{ shift.name }}</td>
+                        <td>{{ shift.position }}</td>
+                        {% for num in range(1, days + 1)%}
+                            {% if shift[num] == "inspector" %}
+                                <td>I</td>
+                            {% elif shift[num] == "driver" %}
+                                <td>D</td>
+                            {% elif shift[num] == "major" %}
+                                <td style="background-color: aquamarine;">I</td>
+                            {% elif shift[num] == "majorDriver" %}
+                                <td style="background-color: aquamarine;">D</td>
+                            {% else %}
+                                <td> </td>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% if count % 4 == 0 %}
+                <td colspan="{{ days + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+        <!-- <tfoot>
+            <tr>
+                <td colspan="3">Number of persons</td>               
+            </tr>
+        </tfoot> -->
+    </table>
+    <form action="/edit" method="get">
+        <button class="btn btn-primary" type="submit">Edit shedule</button>
+    </form>
+{% endblock %}

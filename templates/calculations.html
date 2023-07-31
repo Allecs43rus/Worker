@@ -1,0 +1,147 @@
+{% extends "layout.html" %} 
+
+    {% block title %}Bookkeeper{% endblock %}
+    {% block main %}
+    <div>
+        <h3 style="padding-bottom: 3%;">Report for {{ dateReport.name }}</h3>
+    </div>
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Amount of shifts</th>
+                <th>Cost</th>
+                <th>Summary</th>
+                <th>Total</th>
+            </thead>
+            <tbody class="current">
+                {% for data in listDatas %}
+                {% if data.inspector %} 
+                <tr>
+                        <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.name }}</th>
+                        <td>Inspector:  {{ data.inspector }}</td>
+                        <td>{{ cost.inspector }}$</td>                           
+                        <td>{{ cost.inspector * data.inspector}}$</td>                           
+                        <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.totalMoney }}$</th> 
+                </tr>
+                            {% if data.driver %}
+                            <tr>
+                                <td>Driver:  {{ data.driver }}</td>
+                                <td>{{ cost.driver }}$</td>                           
+                                <td>{{ data.driver * cost.driver }}$</td>                           
+                            </tr>
+                            {% endif %}
+                            {% if data.major %}  
+                            <tr>
+                                <td>Major: {{ data.major }}</td>
+                                <td>{{ cost.major }}$</td>
+                                <td>{{ data.major * cost.major }}$</td>
+                            </tr>                              
+                            {% endif %}
+                            {% if data.majorDriver %} 
+                            <tr>
+                                <td>Major Driver: {{ data.majorDriver }}</td>
+                                <td>{{ cost.majorDriver }}$</td>
+                                <td>{{ data.majorDriver * cost.majorDriver}}$</td>
+                            </tr>                   
+                            {% endif %}
+
+                {% elif data.driver %} 
+                <tr>
+                        <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.name }}</th>
+                        <td>Driver: {{ data.driver }}</td>
+                        <td>{{ cost.driver }}$</td>                           
+                        <td>{{ data.driver * cost.driver}}$</td>                           
+                        <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.totalMoney }}$</th> 
+                </tr>
+                                    {% if data.inspector %}
+                                    <tr>
+                                        <td>Inspector: {{ data.inspector }}</td>
+                                        <td>{{ cost.inspector }}$</td>                           
+                                        <td>{{ cost.inspector * data.inspector}}$</td>                           
+                                    </tr>
+                                    {% endif %}
+                                    {% if data.major %}  
+                                    <tr>
+                                        <td>Major: {{ data.major }}</td>
+                                        <td>{{ cost.major }}$</td>
+                                        <td>{{ data.major * cost.major }}$</td>
+                                    </tr>                              
+                                    {% endif %}
+                                    {% if data.majorDriver %} 
+                                    <tr>
+                                        <td>Major Driver : {{ data.majorDriver }}</td>
+                                        <td>{{ cost.majorDriver }}$</td>
+                                        <td>{{ data.majorDriver * cost.majorDriver }}$</td>
+                                    </tr>                   
+                                    {% endif %}
+                                    
+                {% elif data.major %}  
+                <tr>
+                                <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.name }}</th>
+                                <td>Major: {{ data.major }}</td>
+                                <td>{{ cost.major }}$</td>
+                                <td>{{ data.major * cost.major }}$</td>
+                                <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.totalMoney }}$</th> 
+                </tr> 
+                                {% if data.inspector %}
+                                <tr>
+                                    <td>Inspector: {{ data.inspector }}</td>
+                                    <td>{{ cost.inspector }}$</td>                           
+                                    <td>{{ cost.inspector * data.inspector}}$</td>                           
+                                </tr>
+                                {% endif %}
+                                {% if data.driver %}  
+                                <tr>
+                                    <td>Driver: {{ data.driver }}</td>
+                                    <td>{{ cost.driver }}$</td>
+                                    <td>{{ data.driver * cost.driver }}$</td>
+                                </tr>                              
+                                {% endif %}
+                                {% if data.majorDriver %} 
+                                <tr>
+                                    <td>Major Driver: {{ data.majorDriver }}</td>
+                                    <td>{{ cost.majorDriver }}$</td>
+                                    <td>{{ data.majorDriver * cost.majorDriver }}$</td>
+                                </tr>                   
+                                {% endif %}
+                                                
+                {% elif data.majorDriver %} 
+                <tr>
+                                <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.name }}</th>
+                                <td>Major Driver: {{ data.majorDriver }}</td>
+                                <td>{{ cost.majorDriver }}$</td>
+                                <td>{{ data.majorDriver * cost.majorDriver }}$</td>
+                                <th rowspan="{{ data.positions }}" style="vertical-align: middle">{{ data.totalMoney}}$</th> 
+                </tr>
+                                {% if data.inspector %}
+                                <tr>
+                                    <td>Inspector: {{ data.inspector }}</td>
+                                    <td>{{ cost.inspector }}$</td>                           
+                                    <td>{{ cost.inspector * data.inspector}}$</td>                           
+                                </tr>
+                                {% endif %}
+                                {% if data.driver %}  
+                                <tr>
+                                    <td>Driver: {{ data.driver }}</td>
+                                    <td>{{ cost.driver }}$</td>
+                                    <td>{{data.driver * cost.driver }}$</td>
+                                </tr>                              
+                                {% endif %}
+                                {% if data.major %} 
+                                <tr>
+                                    <td>Major: {{ data.major }}</td>
+                                    <td>{{ cost.major }}$</td>
+                                    <td>{{ data.major * cost.major}}$</td>
+                                </tr>                   
+                                {% endif %}
+                {% endif %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                    <th colspan="4" style="background-color: aquamarine; color: red;"><h4>Total Money</h4></th>
+                    <th style="color: red; background-color: aquamarine;"><h4>{{ totalCalc }}$</h4></th>
+
+                </tfoot>
+            </table>
+
+    {% endblock %}

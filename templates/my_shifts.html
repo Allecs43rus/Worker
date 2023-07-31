@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block js_func %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".btn").style.visibility = "hidden"
+            let month = document.querySelector("#month")
+            month.addEventListener("change", function(){
+                document.querySelector(".btn").style.visibility = "visible"
+            })
+        })
+    </script>
+{% endblock %}
+
+    {% block title %}My_shifts{% endblock %}
+
+    {% block main %}
+    <div class="chart">
+        <form action="/my_shifts" method="post">
+        <h3> Chart for 
+                <select id="month" name="month">
+                    <option value="{{ dateNow.monthNumber }}" selected>{{ dateNow.monthName }}</option>
+                    {% for data in datas %}
+                        {% if data.number != dateNow.monthNumber %}
+                        <option value="{{ data.number }}">{{ data.nameMonth }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <select id="month" name="year">
+                    <option value="{{ dateNow.year }}" selected>{{ dateNow.year }}</option>
+                    {% for data in datas %}
+                    {% if data.yearNext != dateNow.year and data.yearNext %}
+                    <option value="{{ data.yearNext }}">{{ data.yearNext }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </h3>
+            <button class="btn btn-primary" type="submit">Show</button>
+        </form>
+    </div>
+    <div>
+        <table class="calendar">
+            <thead style="border: 3px solid black;">
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th style="background-color: rgba(238, 100, 100, 0.292);">Sat</th>
+                <th style="background-color: rgba(238, 100, 100, 0.292);">Sun</th>
+            </thead>
+            {% for weeks in daysCalendar %}
+            <tr>
+                {% for days in weeks %}
+                    {% if days[0] == 0 %}
+                    <td></td>
+                    {% else %}
+                    {% for shift in myShifts %}
+                        {% if shift.day == days[0] and shift.shift == "dayOff" %}
+                        <td>{{ days[0] }}</td>
+                        {% elif shift.day == days[0] and shift.shift == "inspector"%}
+                        <td style="background-color:red;"> {{ days[0] }}</td>
+                        {% elif shift.day == days[0] and shift.shift == "driver"%}
+                        <td style="background-color:blue;"> {{ days[0] }}</td>
+                        {% elif shift.day == days[0] and shift.shift == "major"%}
+                        <td style="background-color: yellow;"> {{ days[0] }}</td>
+                        {% elif shift.day == days[0] and shift.shift == "majorDriver"%}
+                        <td style="background-color: green;"> {{ days[0] }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </div id="rect">
+                <h6><div id="rectangle" style="background: green;"></div>Major-Driver<div>{{ shifts.majorDriver }}</div></h6>
+                <h6><div id="rectangle" style="background: yellow;"></div>Major<div>{{ shifts.major }}</div></h6>
+                <h6><div id="rectangle" style="background: blue;"></div>Driver<div>{{ shifts.driver }}</div></h6>
+                <h6><div id="rectangle" style="background: red;"></div>Inspector<div>{{ shifts.inspector }}</div></h6>
+            <div>
+            </table>
+        </div>
+        <h5 style="color: white;">Total shifts: <b style="color: black;">{{ total.shifts }}</b></h5>
+        <h5 style="color: white;">Total day off: <b style="color: black;">{{ total.dayOff }}</b></h5>
+        <h5 style="color: white;">Total money: <b style="color: black;">{{ total.money }}$</b></h5>
+
+    {% endblock %}

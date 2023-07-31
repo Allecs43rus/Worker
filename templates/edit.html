@@ -1,0 +1,209 @@
+{% extends "layout.html" %} 
+
+    {% block js_func %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.querySelector("#now").style.display = "block"
+                document.querySelector("#next").style.display = "none"
+                let select = document.querySelector("#month")
+                select.addEventListener("change", function(){
+                    if (this.value == "next") {
+                        document.querySelector("#now").style.display = "none"
+                        document.querySelector("#next").style.display = "block"
+                    }
+                    else if (this.value == "now") {
+                        document.querySelector("#now").style.display = "block"     
+                        document.querySelector("#next").style.display = "none"
+                    }
+                })
+
+            })
+        </script>
+    {% endblock%}
+
+    {% block title %}login{% endblock %}
+
+    {% block main %}
+    <div class="chart">
+        <h3> Chart for 
+            <select id="month" name="month">
+                <option value="now" selected>{{ now.month }}</option>
+                {% if now.nextMonth %}
+                    <option value="next">{{ now.nextMonth }}</option>
+                {% endif %}
+            </select>
+        </h3>
+    </div>
+
+    <div id="now">
+        <form action="/edit" method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" rowspan="2">№</th>
+                        <th scope="col" rowspan="2">Name</th>
+                    <th scope="col" rowspan="2">Position</th>
+                    <th scope="col" colspan="{{ now.days }}">Date</th>
+                </tr>
+                {% for num in range(1, now.days + 1)%}
+                    <th style="width: 40px;" class="days" scope="col" value="{{ num }}">{{ num }}</th>
+                    {% endfor %}
+                </thead>
+            <tbody class="current">
+                <td colspan="{{ now.days + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+                {% for count in range(1, 13) %}
+                <tr>
+                    <td>{{ count }}</td>
+                    {% for shift in shifts %}
+                    {% if shift.number == count %}   
+                    <input type="hidden" name="{{ count }}" value="{{ shift.name }}">
+                    <td>{{ shift.name }}</td>
+                    <td>{{ shift.position }}</td>
+                    {% for num in range(1, now.days + 1)%}
+                    <td>
+                        {% if shift[num] == "inspector" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector" selected>I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% elif shift[num] == "driver" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector">I</option>
+                            <option value="driver" selected>D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% elif shift[num] == "major" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" style="background-color: aquamarine;" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector">I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;" selected>I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% elif shift[num] == "majorDriver" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" style="background-color: aquamarine;" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector">I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;" selected>D</option>
+                        </select>
+                        {% else %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff" selected></option>
+                            <option value="inspector">I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% endif %}
+                    </td>
+                    {% endfor %}    
+                    {% endif %}
+                    {% endfor %}    
+                </tr>
+                {% if count % 4 == 0 %}
+                <td colspan="{{ now.days + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="hidden" name="yearInput" value="{{ now.year }}">
+        <input type="hidden" name="monthInput" value="{{ now.monthNumber }}">
+        <input type="hidden" name="days" value="{{ now.days }}">
+        <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+    </div>
+    
+    <div id="next">
+        <form action="/edit" method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" rowspan="2">№</th>
+                    <th scope="col" rowspan="2">Name</th>
+                    <th scope="col" rowspan="2">Position</th>
+                    <th scope="col" colspan="{{ now.daysNextMonth }}">Date</th>
+                </tr>
+                {% for num in range(1, now.daysNextMonth + 1)%}
+                    <th style="width: 40px;" class="days" scope="col" value="{{ num }}">{{ num }}</th>
+                    {% endfor %}
+            </thead>
+            <tbody class="current">
+                <td colspan="{{ now.daysNextMonth + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+                {% for count in range(1, 13) %}
+                <tr>
+                    <td>{{ count }}</td>
+                    {% for shift in shiftsNext %}
+                    {% if shift.number == count %} 
+                    <input type="hidden" name="{{ count }}" value="{{ shift.name }}">  
+                    <td>{{ shift.name }}</td>
+                    <td>{{ shift.position }}</td>
+                    {% for num in range(1, now.daysNextMonth + 1)%}
+                    <td>
+                        {% if shift[num] == "inspector" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector" selected>I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% elif shift[num] == "driver" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector">I</option>
+                            <option value="driver" selected>D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% elif shift[num] == "major" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" style="background-color: aquamarine;" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector">I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;" selected>I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% elif shift[num] == "majorDriver" %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" style="background-color: aquamarine;" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff"></option>
+                            <option value="inspector">I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;" selected>D</option>
+                        </select>
+                        {% else %}
+                        <select class="shift" name="№{{ count }}date{{ num }}" onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor"> 
+                            <option value="dayOff" selected></option>
+                            <option value="inspector">I</option>
+                            <option value="driver">D</option>
+                            <option value="major" style="background-color: aquamarine;">I</option>
+                            <option value="majorDriver" style="background-color: aquamarine;">D</option>
+                        </select>
+                        {% endif %}
+                    </td>
+                    {% endfor %}    
+                    {% endif %}
+                    {% endfor %}    
+                </tr>
+                    {% if count % 4 == 0 %}
+                        <td colspan="{{ now.daysNextMonth + 3 }}" style="background-color: rgba(100, 100, 120, 0.544);"></td>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </table>
+        <input type="hidden" name="yearInput" value="{{ now.nextYear }}">
+        <input type="hidden" name="monthInput" value="{{ now.nextMonthNumber }}">
+        <input type="hidden" name="days" value="{{ now.daysNextMonth }}">
+        <button class="btn btn-primary" type="submit">Edit</button> 
+        </form>
+        </div>
+
+    {% endblock %}

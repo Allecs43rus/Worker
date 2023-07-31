@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block js_func %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let choose = document.getElementsByName("choose")
+            document.querySelector("#block").style.display = "none"
+            for (var i = 0; i<choose.length; i++) {
+                choose[i].addEventListener('click', function() {
+                    if (this.value == 'delete') {
+                        document.querySelector("#block").style.display = "block"
+                        document.querySelector("#newpass").style.display = "none"
+                        document.querySelector("#newpos").style.display = "none"
+                        document.querySelector("#sure").style.display = "block"
+                    }
+                    else if (this.value == "new") {
+                        document.querySelector("#block").style.display = "block"
+                        document.querySelector("#sure").style.display = "none"
+                        document.querySelector("#newpass").style.display = "block"
+                        document.querySelector("#newpos").style.display = "block"
+                    }
+                });
+            }
+        })
+    </script>
+{% endblock %}
+
+    {% block title %}Registration{% endblock %}
+
+    {% block main %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ row.num }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.password }}</td>
+                    <td>{{ row.position }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form action="/registr" method="post">
+            <div class="mb-3">
+                <input name="choose" type="radio" value="new">New Employee
+                <input name="choose" type="radio" value="delete"> Delete Employee
+            </div>
+            <div id="block">
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus="" class="form-control mx-auto w-auto" id="surname" name="surname" placeholder="Surname" type="text">
+                </div>
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus="" class="form-control mx-auto w-auto" id="name" name="name" placeholder="Name" type="text">
+                </div>
+                <div class="mb-3" id="newpass">
+                    <input autocomplete="off" autofocus="" class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="text">
+                </div>
+                <div class="mb-3" id="newpos">
+                    <input autocomplete="off" autofocus="" class="form-control mx-auto w-auto" id="position" name="position" placeholder="Position" type="text">
+                </div>  
+                <div class="mb-3" id="sure">
+                    <input name="sure" type="radio" value="ok">Are you sure?
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+    {% endblock %}

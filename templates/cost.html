@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}Shift cost{% endblock %}
+
+{% block main %}
+{% for shift in shiftCost %}
+{% if shift.shift_name == "inspector"%}
+<div class="mb-3">
+    <h4 style="color: aliceblue;">
+       Shift of <b style="color: black;">Inspector</b> cost: 
+        <b style="color: black;">{{ shift.cost }}$</b>
+    </h4>
+    <div class="mb-3">
+        <form action="/cost" method="post">
+            <input type="number" autocomplete="off" max="1000" class="form-control mx-auto w-auto" placeholder="New cost" name="{{ shift.shift_name }}">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+    <hr style="width: 50%; margin: 0 25% 0 25%;">
+</div>
+{% endif%}
+{% if shift.shift_name == "driver"%}
+<div class="mb-3">
+    <h4 style="color: aliceblue;">
+       Shift of <b style="color: black;">Driver</b> cost: 
+        <b style="color: black;">{{ shift.cost }}$</b>
+    </h4>
+    <div class="mb-3">
+        <form action="/cost" method="post">
+            <input type="number" autocomplete="off" max="1000" class="form-control mx-auto w-auto" placeholder="New cost" name="{{ shift.shift_name }}">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+    <hr style="width: 50%; margin: 0 25% 0 25%;">
+</div>
+{% endif%}
+{% if shift.shift_name == "major"%}
+<div class="mb-3">
+    <h4 style="color: aliceblue;">
+       Shift of <b style="color: black;">Major</b> cost: 
+        <b style="color: black;">{{ shift.cost }}$</b>
+    </h4>
+    <div class="mb-3">
+        <form action="/cost" method="post">
+            <input type="number" autocomplete="off" max="1000" class="form-control mx-auto w-auto" placeholder="New cost" name="{{ shift.shift_name }}">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+    <hr style="width: 50%; margin: 0 25% 0 25%;">
+</div>
+{% endif%}
+{% if shift.shift_name == "majorDriver"%}
+<div class="mb-3">
+    <h4 style="color: aliceblue;">
+       Shift of <b style="color: black;">Major-Driver</b> cost: 
+        <b style="color: black;">{{ shift.cost }}$</b>
+    </h4>
+    <div class="mb-3">
+        <form action="/cost" method="post">
+            <input type="number" autocomplete="off" max="1000" class="form-control mx-auto w-auto" placeholder="New cost" name="{{ shift.shift_name }}">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+    <hr style="width: 50%; margin: 0 25% 0 25%;">
+</div>
+{% endif%}
+    {% endfor %}
+{% endblock %}
