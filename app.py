@@ -53,7 +53,10 @@ def hello():
         # create new list with dictionary
         try:
             info = db.execute("SELECT number, name, day, shift, position  FROM users JOIN ? ON ?.id_user = users.id;", date, date)
+            if len(info) == 0:
+                return redirect("/new")
             shifts = []
+            print(info)
             while True:
                 if len(shifts) == 0:
                     shift = {}

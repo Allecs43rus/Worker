@@ -119,7 +119,7 @@
         <button class="btn btn-primary" type="submit">Edit</button>
     </form>
     </div>
-    
+    {% if now.daysNextMonth %}
     <div id="next">
         <form action="/edit" method="post">
             <table class="table">
@@ -205,5 +205,6 @@
         <button class="btn btn-primary" type="submit">Edit</button> 
         </form>
         </div>
+        {% endif %}
 
     {% endblock %}
